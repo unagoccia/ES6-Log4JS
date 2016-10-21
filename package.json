@@ -1,0 +1,41 @@
+{
+  "name": "log4js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npm-run-all init -p watch start",
+    "start": "browser-sync start --config bs-config.js",
+    "init": " npm-run-all -c clean mkdir",
+    "clean": "rimraf ./dist",
+    "mkdir": "mkdirp ./dist/js ./dist/css ./dist/image",
+    "lint": "eslint ./src/js/**/*.js",
+    "build": "npm-run-all -c init lint build:*",
+    "build:html": "cpx \"./src/**/*.html\" ./dist",
+    "build:css": "cpx \"./src/**/*.css\" ./dist",
+    "build:img": "cpx \"./src/**/*.{png,jpg,jpeg,svg,gif}\" ./dist",
+    "build:js": "browserify -t babelify ./src/js/index.js -d | exorcist ./dist/js/bundle.js.map > ./dist/js/bundle.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:lint": "watch 'npm run lint' ./src/js/",
+    "watch:html": "cpx \"./src/**/*.html\" ./dist -w",
+    "watch:css": "cpx \"./src/**/*.css\" ./dist -w",
+    "watch:img": "cpx \"./src/**/*.{png,jpg,jpeg,svg,gif}\" ./dist -w",
+    "watch:js": "watchify -t babelify ./src/js/index.js -o 'exorcist ./dist/js/bundle.js.map > ./dist/js/bundle.js' -d"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.16.0",
+    "babel-preset-es2015": "^6.16.0",
+    "babelify": "^7.3.0",
+    "browser-sync": "^2.17.5",
+    "budo": "^9.2.1",
+    "cpx": "^1.5.0",
+    "eslint": "^3.8.1",
+    "exorcist": "^0.4.0",
+    "npm-run-all": "^3.1.1",
+    "watch": "^1.0.1",
+    "watchify": "^3.7.0"
+  }
+}
